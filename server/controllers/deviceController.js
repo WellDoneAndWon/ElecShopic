@@ -37,7 +37,6 @@ class DeviceController {
         let offset = page * limit - limit
         let devices;
 
-        // 4. Исправлены названия параметров для фильтрации
         if (!brandId && !typeId) {
             devices = await Device.findAndCountAll({limit, offset})
         }
@@ -66,6 +65,25 @@ class DeviceController {
             const {id} = req.params;
             await Device.destroy({where: {id}});
             return res.json({message: 'Устройство успешно удалено'});
+        } catch (e) {
+            next(ApiError.internal(e.message));
+        }
+    }
+
+    async getPriceRange(req, res, next) {
+        try {
+            const { typeId, brandId } = req.query;
+            const where = {};
+            if (typeId && typeId !== "null") where.typeId = typeId;
+            if (brandId && brandId !== "null") where.brandId = brandId;
+
+            const minPrice = await Device.min('price', { where });
+            const maxPrice = await Device.max('price', { where });
+
+            return res.json({
+                minPrice: minPrice || 0,
+                maxPrice: maxPrice || 100000
+            });
         } catch (e) {
             next(ApiError.internal(e.message));
         }
