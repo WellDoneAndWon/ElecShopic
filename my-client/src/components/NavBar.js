@@ -18,7 +18,14 @@ const NavBar = observer(() => {
     };
 
     const handleAuthClick = () => navigate(LOGIN_ROUTE);
-    const handleBasketClick = () => navigate(BASKET_ROUTE);
+
+    const handleBasketClick = () => {
+        if (!user.isAuth) {
+            navigate(LOGIN_ROUTE);
+            return;
+        }
+        navigate(BASKET_ROUTE);
+    };
 
     return (
         <Navbar bg="dark" variant="dark" expand="lg">
@@ -50,7 +57,6 @@ const NavBar = observer(() => {
 
                         {user.isAuth ? (
                             <>
-                                {/* Показываем кнопку "Админ панель" только для ADMIN */}
                                 {user.role === 'ADMIN' && (
                                     <Button
                                         variant="outline-light"

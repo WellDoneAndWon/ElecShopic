@@ -1,19 +1,32 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Col, Container, Row, Image, Button, Card, Spinner, Alert } from "react-bootstrap";
+import {
+    Col,
+    Container,
+    Row,
+    Image,
+    Button,
+    Card,
+    Spinner,
+    Alert
+} from "react-bootstrap";
 import bigStar from '../assets/bigStar.png';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { fetchOneDevice } from "../http/deviceAPI";
 import { Context } from "../index";
 import { observer } from "mobx-react-lite";
 import DeviceRating from '../components/DeviceRating';
+import { LOGIN_ROUTE } from '../utils/constants';
 
 const DevicePage = observer(() => {
     const [device, setDevice] = useState({ info: [] });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { id } = useParams();
-    const { basket } = useContext(Context);
+    const { user, basket } = useContext(Context);
     const [averageRating, setAverageRating] = useState(0);
+    const navigate = useNavigate();
+
+    const basketItem = basket.items.find(item => item.device.id === Number(id));
 
     useEffect(() => {
         setLoading(true);
@@ -27,14 +40,28 @@ const DevicePage = observer(() => {
             .finally(() => setLoading(false));
     }, [id]);
 
-    const isInBasket = basket.items.some(item => item.device.id === device.id);
-
     const handleAddToBasket = () => {
+        if (!user.isAuth) {
+            navigate(LOGIN_ROUTE);
+            return;
+        }
         basket.addToBasket(device);
     };
 
-    const handleRemoveFromBasket = () => {
-        basket.removeFromBasket(device.id);
+    const handleIncrease = () => {
+        if (!user.isAuth) {
+            navigate(LOGIN_ROUTE);
+            return;
+        }
+        basket.increaseQuantity(device.id);
+    };
+
+    const handleDecrease = () => {
+        if (!user.isAuth) {
+            navigate(LOGIN_ROUTE);
+            return;
+        }
+        basket.decreaseQuantity(device.id);
     };
 
     if (loading) {
@@ -124,21 +151,54 @@ const DevicePage = observer(() => {
                         }}
                     >
                         <h3>От: {device.price} руб.</h3>
-                        {isInBasket ? (
-                            <Button
-                                variant="success"
-                                onClick={handleRemoveFromBasket}
-                                style={{ width: '100%', fontSize: '1.2rem' }}
-                            >
-                                ✓ В корзине
-                            </Button>
+                        {basketItem ? (
+                            <div className="d-flex align-items-center">
+                                <Button
+                                    variant="success"
+                                    disabled
+                                    style={{
+                                        height: '38px',
+                                        borderRadius: 22,
+                                        padding: '7px 18px',
+                                        fontWeight: 600,
+                                        fontSize: 15,
+                                        marginRight: 10
+                                    }}
+                                >
+                                    В корзине
+                                </Button>
+                                <Button
+                                    variant="outline-primary"
+                                    size="sm"
+                                    onClick={handleDecrease}
+                                    style={{ height: '38px', padding: '2px 8px', fontSize: 20 }}
+                                >
+                                    -
+                                </Button>
+                                <span className="mx-2" style={{ fontSize: 20 }}>{basketItem.quantity}</span>
+                                <Button
+                                    variant="outline-primary"
+                                    size="sm"
+                                    onClick={handleIncrease}
+                                    style={{ height: '38px', padding: '2px 8px', fontSize: 20 }}
+                                >
+                                    +
+                                </Button>
+                            </div>
                         ) : (
                             <Button
-                                variant="outline-dark"
+                                variant="primary"
+                                style={{
+                                    height: '38px',
+                                    borderRadius: 22,
+                                    padding: '7px 18px',
+                                    fontWeight: 600,
+                                    fontSize: 15,
+                                    boxShadow: '0 2px 4px rgba(0,123,255,0.07)'
+                                }}
                                 onClick={handleAddToBasket}
-                                style={{ width: '100%', fontSize: '1.2rem' }}
                             >
-                                Добавить в корзину
+                                В корзину
                             </Button>
                         )}
                     </Card>

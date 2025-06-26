@@ -55,3 +55,11 @@ export const deleteDevice = async (id) => {
     const { data } = await $authHost.delete(`api/device/${id}`);
     return data;
 }
+
+export const fetchPriceRange = async (typeId, brandId) => {
+    const { data } = await $host.get('api/device/price-range', {
+        params: { typeId, brandId }
+    });
+    return data;
+}
+

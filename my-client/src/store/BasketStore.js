@@ -33,10 +33,22 @@ export default class BasketStore {
         this.saveToLocalStorage();
     }
 
-    changeQuantity(id, quantity) {
+    increaseQuantity(id) {
         const item = this._items.find(item => item.device.id === id);
         if (item) {
-            item.quantity = quantity;
+            item.quantity += 1;
+            this.saveToLocalStorage();
+        }
+    }
+
+    decreaseQuantity(id) {
+        const item = this._items.find(item => item.device.id === id);
+        if (item) {
+            if (item.quantity > 1) {
+                item.quantity -= 1;
+            } else {
+                this.removeFromBasket(id);
+            }
             this.saveToLocalStorage();
         }
     }

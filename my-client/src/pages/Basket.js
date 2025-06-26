@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import {Container, Table, Button, Form, Badge} from 'react-bootstrap';
+import {Container, Table, Button, Badge} from 'react-bootstrap';
 import { Context } from '../index';
 import { observer } from 'mobx-react-lite';
 import { Trash } from 'react-bootstrap-icons';
@@ -45,15 +45,23 @@ const Basket = observer(() => {
                         </td>
                         <td>{item.device.price} ₽</td>
                         <td>
-                            <Form.Control
-                                type="number"
-                                min="1"
-                                value={item.quantity}
-                                style={{ width: '80px' }}
-                                onChange={(e) =>
-                                    basket.changeQuantity(item.device.id, parseInt(e.target.value) || 1)
-                                }
-                            />
+                            <div className="d-flex align-items-center">
+                                <Button
+                                    variant="outline-primary"
+                                    size="sm"
+                                    onClick={() => basket.decreaseQuantity(item.device.id)}
+                                >
+                                    -
+                                </Button>
+                                <span className="mx-2">{item.quantity}</span>
+                                <Button
+                                    variant="outline-primary"
+                                    size="sm"
+                                    onClick={() => basket.increaseQuantity(item.device.id)}
+                                >
+                                    +
+                                </Button>
+                            </div>
                         </td>
                         <td>{item.device.price * item.quantity} ₽</td>
                         <td>

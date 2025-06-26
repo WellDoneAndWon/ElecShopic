@@ -5,9 +5,15 @@ import { SHOP_ROUTE } from '../utils/constants';
 import { Context } from "../index";
 import UserManagement from "../pages/UserManagement";
 import Admin from "../pages/Admin";
-import { observer } from "mobx-react-lite"; // Добавлен observer
+import { observer } from "mobx-react-lite";
+import {Basket} from "react-bootstrap-icons";
 
-const AppRouter = observer(() => { // Обернули в observer
+const PrivateRoute = ({ children }) => {
+    const { user } = useContext(Context);
+    return user.isAuth ? children : <Navigate to="/login" />;
+};
+
+const AppRouter = observer(() => {
     const { user } = useContext(Context);
 
     return (
@@ -26,6 +32,13 @@ const AppRouter = observer(() => { // Обернули в observer
             {publicRoutes.map(({ path, Component }) => (
                 <Route key={path} path={path} element={<Component />} />
             ))}
+
+            {/* Защита корзины */}
+            <Route path="/basket" element={
+                <PrivateRoute>
+                    <Basket/>
+                </PrivateRoute>
+            }/>
 
             {/* Резервный маршрут */}
             <Route path="*" element={<Navigate to={SHOP_ROUTE} />} />
