@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="685d88e1-e72b-4334-af1f-095f5dd016fa" name="Changes" comment="Initial commit" />
+    <list default="true" id="685d88e1-e72b-4334-af1f-095f5dd016fa" name="Changes" comment="Initial commit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/my-client/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-client/src/components/BrandBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/my-client/src/components/BrandBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-client/src/components/DeviceRating.js" beforeDir="false" afterPath="$PROJECT_DIR$/my-client/src/components/DeviceRating.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-client/src/components/ErrorBoundary.js" beforeDir="false" afterPath="$PROJECT_DIR$/my-client/src/components/ErrorBoundary.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-client/src/components/Pages.js" beforeDir="false" afterPath="$PROJECT_DIR$/my-client/src/components/Pages.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/deviceController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/deviceController.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,8 +27,20 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/my-client" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "WellDoneAndWon"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/WellDoneAndWon/ElecShopic.git",
+    "accountId": "e682e8de-14ef-463e-859a-d03090ebc51c"
+  }
+}]]></component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 8
 }]]></component>
@@ -90,7 +110,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1750669854691</updated>
-      <workItem from="1750669855970" duration="96086000" />
+      <workItem from="1750669855970" duration="99250000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />

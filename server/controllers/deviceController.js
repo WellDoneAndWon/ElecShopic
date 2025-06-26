@@ -6,23 +6,20 @@ const ApiError = require('../error/ApiError')
 class DeviceController {
     async create(req, res, next) {
         try {
-            // 1. Исправлено brandID → brandId для консистентности
             const {name, price, brandId, typeId, info} = req.body
             const {img} = req.files
             let fileName = uuid.v4() + ".jpg"
             img.mv(path.resolve(__dirname, '..', 'static', fileName))
 
-            // 2. Сначала создаём устройство, чтобы получить его ID
             const device = await Device.create({name, price, brandId, typeId, img: fileName})
 
-            // 3. Исправлена ошибка с const: используем новую переменную
             if (info) {
-                const parsedInfo = JSON.parse(info) // Не перезаписываем const
+                const parsedInfo = JSON.parse(info)
                 parsedInfo.forEach(i =>
                     DeviceInfo.create({
                         title: i.title,
                         description: i.description,
-                        deviceId: device.id // Используем реальный ID устройства
+                        deviceId: device.id
                     })
                 )
             }
