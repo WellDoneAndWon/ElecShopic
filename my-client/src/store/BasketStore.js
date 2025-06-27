@@ -3,22 +3,33 @@ import { makeAutoObservable } from "mobx";
 export default class BasketStore {
     constructor() {
         this._items = [];
+        this._userId = null; // Добавляем ID пользователя
         makeAutoObservable(this);
+    }
+
+    setUserId(userId) {
+        this._userId = userId;
         this.loadFromLocalStorage();
     }
 
     loadFromLocalStorage() {
-        const savedBasket = localStorage.getItem('basket');
+        if (!this._userId) {
+            this._items = [];
+            return;
+        }
+        const savedBasket = localStorage.getItem(`basket_${this._userId}`);
         if (savedBasket) {
             this._items = JSON.parse(savedBasket);
         }
     }
 
     saveToLocalStorage() {
-        localStorage.setItem('basket', JSON.stringify(this._items));
+        if (!this._userId) return;
+        localStorage.setItem(`basket_${this._userId}`, JSON.stringify(this._items));
     }
 
     addToBasket(device) {
+        if (!this._userId) return;
         const existingItem = this._items.find(item => item.device.id === device.id);
         if (existingItem) {
             existingItem.quantity += 1;
@@ -55,7 +66,7 @@ export default class BasketStore {
 
     clearBasket() {
         this._items = [];
-        localStorage.removeItem('basket');
+        // Не очищаем localStorage здесь!
     }
 
     get items() {

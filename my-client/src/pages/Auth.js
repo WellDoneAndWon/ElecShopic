@@ -4,10 +4,10 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE } from "../utils/constants";
 import { login, registration } from "../http/userAPI";
 import { Context } from "../index";
-import {observer} from "mobx-react"; // Добавьте импорт контекста
+import { observer } from "mobx-react-lite";
 
-const Auth = observer( () => {
-    const { user } = useContext(Context); // Получаем объект пользователя из контекста
+const Auth = observer(() => {
+    const { user, basket } = useContext(Context); // Добавляем basket из контекста
     const location = useLocation();
     const navigate = useNavigate();
     const isLogin = location.pathname === LOGIN_ROUTE;
@@ -25,19 +25,18 @@ const Auth = observer( () => {
                 data = await registration(email, password);
             }
 
-            console.log("Данные пользователя после авторизации:", data); // Отладочное сообщение
-
             user.setUser(data);
             user.setIsAuth(true);
             user.setRole(data.role);
 
+            // Устанавливаем ID пользователя в корзине
+            basket.setUserId(data.id);
+
             navigate(SHOP_ROUTE);
         } catch (e) {
-            console.error("Ошибка авторизации:", e); // Отладочное сообщение
             alert(e.response?.data?.message || "Произошла ошибка");
         }
     };
-
 
     return (
         <Container
@@ -57,7 +56,7 @@ const Auth = observer( () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             size="lg"
-                            required // Добавил required для валидации
+                            required
                         />
                     </Form.Group>
 
@@ -68,7 +67,7 @@ const Auth = observer( () => {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             size="lg"
-                            required // Добавил required для валидации
+                            required
                         />
                     </Form.Group>
 

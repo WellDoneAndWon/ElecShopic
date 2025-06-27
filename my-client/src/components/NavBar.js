@@ -13,7 +13,11 @@ const NavBar = observer(() => {
     const logOut = () => {
         user.setUser({});
         user.setIsAuth(false);
+        user.setRole("USER");
         localStorage.removeItem('token');
+
+        // Сбрасываем корзину при выходе
+        basket.setUserId(null);
         navigate(LOGIN_ROUTE);
     };
 
